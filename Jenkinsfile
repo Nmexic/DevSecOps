@@ -1,7 +1,15 @@
 pipeline {
     agent any
 
-    // (environment ve diğer konfigürasyonlar)
+    environment {
+        // Docker ve Registry konfigürasyonları
+        DOCKER_IMAGE = 'myregistry.com/myapp:latest'
+        REGISTRY_URL = 'docker.io'
+        REGISTRY_CREDENTIALS_ID = 'snyk'
+
+        // Kubernetes konfigürasyonları
+        KUBE_CONFIG = '/Users/Mehmet/.kube/config'
+    }
 
     stages {
         stage('Checkout') {
@@ -30,15 +38,20 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                echo 'Güvenlik taraması adımları buraya eklenecek'
-                // Örnek: sh 'snyk test --all-projects'
+                script {
+                    // Snyk plugin kullanarak güvenlik taraması yap
+                    snyk security: 'snyk', organisation: 'Nmexic', project: 'DevSecOps', targetFile: 'package.json'
+                }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                echo 'Kubernetes dağıtım adımları buraya eklenecek'
-                // Örnek: sh 'kubectl apply -f k8s/deployment.yaml'
+                script {
+                    // Kubernetes manifest dosyalarını uygula
+                    sh 'kubectl --kubeconfig ${KUBE_CONFIG} apply -f k8s/deployment.yaml'
+                    sh 'kubectl --kubeconfig ${KUBE_CONFIG} apply -f k8s/service.yaml'
+                }
             }
         }
     }
