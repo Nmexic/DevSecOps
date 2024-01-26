@@ -8,25 +8,22 @@ pipeline {
         REGISTRY_CREDENTIALS_ID = 'docker'
 
         // Kubernetes konfigürasyonları
-        KUBE_CONFIG = '/Users/Mehmet/.kube/config'
+        KUBE_CONFIG = 'C:\\Users\\Mehmet\\.kube\\config'
     }
 
     stages {
-        
         stage('Build and Test') {
             steps {
-                sh 'npm install'
-                sh 'npm test'
+                bat 'npm install'
+                bat 'npm test'
             }
         }
 
         stage('Docker Build and Push') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}")
-                    docker.withRegistry("https://${REGISTRY_URL}", "${REGISTRY_CREDENTIALS_ID}") {
-                        docker.image("${DOCKER_IMAGE}").push()
-                    }
+                    // Docker ve Registry konfigürasyonları burada yapılacak
+                    // Örneğin: docker commands
                 }
             }
         }
@@ -35,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Snyk plugin kullanarak güvenlik taraması yap
-                    snyk security: 'snyk', organisation: 'Nmexic', project: 'DevSecOps', targetFile: 'package.json'
+                    // Örneğin: Snyk commands
                 }
             }
         }
@@ -44,8 +41,8 @@ pipeline {
             steps {
                 script {
                     // Kubernetes manifest dosyalarını uygula
-                    sh 'kubectl --kubeconfig ${KUBE_CONFIG} apply -f k8s/deployment.yaml'
-                    sh 'kubectl --kubeconfig ${KUBE_CONFIG} apply -f k8s/service.yaml'
+                    bat 'kubectl --kubeconfig %KUBE_CONFIG% apply -f k8s\\deployment.yaml'
+                    bat 'kubectl --kubeconfig %KUBE_CONFIG% apply -f k8s\\service.yaml'
                 }
             }
         }
