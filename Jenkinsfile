@@ -12,6 +12,8 @@ pipeline {
     }
 
     stages {
+        // Checkout aşaması otomatik olarak gerçekleşeceği için burada belirtmeye gerek yok
+
         stage('Build and Test') {
             steps {
                 bat 'npm install'
@@ -21,29 +23,23 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                script {
-                    // Docker ve Registry konfigürasyonları burada yapılacak
-                    // Örneğin: docker commands
-                }
+                bat "docker build -t ${DOCKER_IMAGE} ."
+                bat "docker login -u ${REGISTRY_CREDENTIALS_ID} -p your-password ${REGISTRY_URL}"
+                bat "docker push ${DOCKER_IMAGE}"
             }
         }
 
         stage('Security Scan') {
             steps {
-                script {
-                    // Snyk plugin kullanarak güvenlik taraması yap
-                    // Örneğin: Snyk commands
-                }
+                // Snyk CLI kurulu olduğu ve path'te olduğu varsayılarak
+                bat "snyk test --all-projects"
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    // Kubernetes manifest dosyalarını uygula
-                    bat 'kubectl --kubeconfig %KUBE_CONFIG% apply -f k8s\\deployment.yaml'
-                    bat 'kubectl --kubeconfig %KUBE_CONFIG% apply -f k8s\\service.yaml'
-                }
+                bat "kubectl --kubeconfig ${KUBE_CONFIG} apply -f k8s\\deployment.yaml"
+                bat "kubectl --kubeconfig ${KUBE_CONFIG} apply -f k8s\\service.yaml"
             }
         }
     }
