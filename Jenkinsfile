@@ -5,7 +5,7 @@ pipeline {
         // Docker ve Registry konfigürasyonları
         DOCKER_IMAGE = 'myregistry.com/myapp:latest'
         REGISTRY_URL = 'docker.io'
-        REGISTRY_CREDENTIALS_ID = 'snyk'
+        REGISTRY_CREDENTIALS_ID = 'docker'
 
         // Kubernetes konfigürasyonları
         KUBE_CONFIG = '/Users/Mehmet/.kube/config'
@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Nmexic/DevSecOps'
+                
             }
         }
 
