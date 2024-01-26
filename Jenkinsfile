@@ -1,11 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'myapp:latest'
-        REGISTRY_URL = 'myregistry.com'
-        REGISTRY_CREDENTIALS_ID = 'my-registry-creds'
-    }
+    // (environment ve diğer konfigürasyonlar)
 
     stages {
         stage('Checkout') {
@@ -34,13 +30,15 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                // Buraya güvenlik taraması için komutlar eklenebilir
+                echo 'Güvenlik taraması adımları buraya eklenecek'
+                // Örnek: sh 'snyk test --all-projects'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                // Kubernetes'e dağıtım komutları
+                echo 'Kubernetes dağıtım adımları buraya eklenecek'
+                // Örnek: sh 'kubectl apply -f k8s/deployment.yaml'
             }
         }
     }
