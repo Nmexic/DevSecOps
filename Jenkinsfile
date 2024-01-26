@@ -12,12 +12,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                
-            }
-        }
-
+        
         stage('Build and Test') {
             steps {
                 sh 'npm install'
