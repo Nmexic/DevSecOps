@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Docker ve Registry konfigürasyonları
-        DOCKER_IMAGE = 'myregistry.com/myapp:latest'
+        DOCKER_IMAGE = 'nmexic/devsecops:latest'
         REGISTRY_URL = 'docker.io'
         REGISTRY_CREDENTIALS_ID = 'docker'
 
