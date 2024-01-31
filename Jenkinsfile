@@ -13,7 +13,7 @@ pipeline {
                 bat 'npm test'
             }
         }
-        stage('Docker Build and Push') {
+        /*stage('Docker Build and Push') {
             steps {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
@@ -25,7 +25,7 @@ pipeline {
                     }
                 }
             }    
-        }
+        }*/
         stage('Security Scan') {
             steps {
                 bat "snyk test --all-projects"
