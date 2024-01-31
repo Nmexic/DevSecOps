@@ -15,15 +15,12 @@ pipeline {
         }
         stage('Docker Build and Push') {
             steps {
-                stage('Docker Build and Push') {
-                    steps {
-                        bat "docker build -t ${env.DOCKER_IMAGE} ."
-                        bat "docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD ${env.REGISTRY_URL}"
-                        bat "docker push ${env.DOCKER_IMAGE}"
-                    }
-                }
-            }    
+                bat "docker build -t ${env.DOCKER_IMAGE} ."
+                bat "docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD ${env.REGISTRY_URL}"
+                bat "docker push ${env.DOCKER_IMAGE}"
+            }
         }
+
         stage('Security Scan') {
             steps {
                 bat "snyk test --all-projects"
