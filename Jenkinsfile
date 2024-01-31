@@ -16,7 +16,8 @@ pipeline {
         stage('Docker Build and Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    bat "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
+                    bat "echo %DOCKER_PASSWORD% | docker login -u %DOCKER_USER% --password-stdin"
+                    //bat "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
                     bat "docker build -t ${env.DOCKER_IMAGE} ."
                     bat "docker push ${env.DOCKER_IMAGE}"
                 }
