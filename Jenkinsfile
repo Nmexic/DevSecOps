@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                 withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'Nmexic', passwordVariable: 'Memo7759.')]) {
-                    bat 'echo $DOCKER_PASSWORD$ | docker login -u $DOCKER_USER$ --password-stdin https://index.docker.io/v1/'
+                    bat 'echo $Memo7759.$ | docker login -u $Nmexic$ --password-stdin https://index.docker.io/v1/'
                     docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS_ID) {
                         bat "docker build -t ${DOCKER_IMAGE} ."
                         bat "docker push ${DOCKER_IMAGE}"
