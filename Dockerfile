@@ -1,6 +1,6 @@
 
 # Node.js resmi base image'ını kullan
-FROM node:14
+FROM node:21.6.1
 
 # Çalışma dizini oluştur
 WORKDIR /usr/src/app
