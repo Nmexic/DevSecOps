@@ -21,9 +21,10 @@ pipeline {
                     docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS_ID) {
                         bat "docker build -t ${DOCKER_IMAGE} ."
                         bat "docker push ${DOCKER_IMAGE}"
+                        }
                     }
                 }
-            }
+            }    
         }
         stage('Security Scan') {
             steps {
@@ -37,5 +38,4 @@ pipeline {
             }
         }
     }
-}
 }
