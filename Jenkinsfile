@@ -15,11 +15,14 @@ pipeline {
         }
         stage('Docker Build and Push') {
             steps {
-                bat "docker build -t ${env.DOCKER_IMAGE} ."
-                bat "docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD ${env.REGISTRY_URL}"
-                bat "docker push ${env.DOCKER_IMAGE}"
-            }
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat "docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}"
+                    bat "docker build -t ${env.DOCKER_IMAGE} ."
+                    bat "docker push ${env.DOCKER_IMAGE}"
+                }
+            }       
         }
+
 
         stage('Security Scan') {
             steps {
