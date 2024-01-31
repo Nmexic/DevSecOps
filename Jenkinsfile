@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = 'nmexic/devsecops:latest'
-        REGISTRY_URL = 'docker.io'
+        REGISTRY_URL = 'https://registry-1.docker.io/v2/'
         REGISTRY_CREDENTIALS_ID = 'docker' 
         KUBE_CONFIG = 'C:\\Users\\Mehmet\\.kube\\config'
     }
