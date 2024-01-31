@@ -13,19 +13,17 @@ pipeline {
                 bat 'npm test'
             }
         }
-        /*stage('Docker Build and Push') {
+        stage('Docker Build and Push') {
             steps {
-                script {
-                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    bat 'echo $DOCKER_PASSWORD$ | docker login -u $DOCKER_USER$ --password-stdin https://index.docker.io/v1/'
-                    docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS_ID) {
-                        bat "docker build -t ${DOCKER_IMAGE} ."
-                        bat "docker push ${DOCKER_IMAGE}"
-                        }
+                stage('Docker Build and Push') {
+                    steps {
+                        bat "docker build -t ${env.DOCKER_IMAGE} ."
+                        bat "docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD ${env.REGISTRY_URL}"
+                        bat "docker push ${env.DOCKER_IMAGE}"
                     }
                 }
             }    
-        }*/
+        }
         stage('Security Scan') {
             steps {
                 bat "snyk test --all-projects"
